@@ -1,0 +1,4 @@
+*.war
+*.ear
+*.deployed
+*.failed
