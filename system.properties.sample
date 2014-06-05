@@ -1,0 +1,7 @@
+exampleds.jdbc.url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+exampleds.user: sa
+exampleds.password: sa
+
+txn.node.identifier: node-test1
+jboss.bind.address: 192.168.178.32
+
