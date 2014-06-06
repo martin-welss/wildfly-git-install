@@ -48,6 +48,13 @@
                     <properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
                 </authorization>
             </security-realm>
+            <security-realm name="ssl-realm">
+                <server-identities>
+                    <ssl>
+                        <keystore path="server.keystore" relative-to="user.home" keystore-password="${ssl.keystore.password}" alias="server"/>
+                    </ssl>
+                </server-identities>
+            </security-realm>
         </security-realms>
         <audit-log>
             <formatters>
@@ -372,6 +379,7 @@
             <buffer-cache name="default"/>
             <server name="default-server">
                 <http-listener name="default" socket-binding="http"/>
+                <https-listener name="ssl-default" socket-binding="https" security-realm="ssl-realm"/>
                 <ajp-listener name="ajp" socket-binding="ajp"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
