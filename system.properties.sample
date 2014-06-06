@@ -5,3 +5,6 @@ exampleds.password: sa
 txn.node.identifier: node-test1
 jboss.bind.address: localhost
 
+ssl.keystore.password: keystore_password
+
+
