@@ -1,0 +1,7 @@
+exampleds.jdbc.url: jdbc:postgresql:example
+exampleds.user: wildfly
+exampleds.password: wildfly
+
+txn.node.identifier: node-test1
+jboss.bind.address: localhost
+
