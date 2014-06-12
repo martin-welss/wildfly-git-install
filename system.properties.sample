@@ -1,4 +1,4 @@
-exampleds.jdbc.url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+exampleds.jdbc.url: jdbc:h2:~/h2data/exampledb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
 exampleds.user: sa
 exampleds.password: sa
 
