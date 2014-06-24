@@ -1,9 +1,6 @@
-wildfly-git-install lets you install your customized wildfly-installation on all your computers 
-and servers of your build-pipeline: development workstations, testsystems, ci-servers and production systems.
-Just setup a central git-repository and change the configuration to your needs and clone it on the other servers.
-The system-specific configurations like databse url, user and password are externalized to the file 
-system.properties residing in the users home directory. Of course the local system.properties are NOT tracked
-by git. By using git to manage your installations you get all its  power and benefits your used to:
+wildfly-git-install lets you install your customized wildfly-installation on all your computers and servers of your build-pipeline: development workstations, testsystems, ci-servers and production systems. Just setup a central git-repository and change the configuration to your needs and clone it on the other servers.
+
+The system-specific configurations like databse url, user and password are externalized to the file system.properties residing in the users home directory. Of course the local system.properties are NOT tracked by git. By using git to manage your installations you get all its  power and benefits your used to:
 - easily track changes and nail down configurations differences
 - switch back and forth between commits and branches
 - experiment with new configurations without regrets
