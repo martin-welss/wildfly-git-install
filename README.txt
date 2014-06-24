@@ -1,82 +1,78 @@
- _       ___ __    __________         ____ 
-| |     / (_) /___/ / ____/ /_  __   ( __ )
-| | /| / / / / __  / /_  / / / / /  / __  |
-| |/ |/ / / / /_/ / __/ / / /_/ /  / /_/ / 
-|__/|__/_/_/\__,_/_/   /_/\__, /   \____/  
-                         /____/            
+wildfly-git-install lets you install your customized wildfly-installation on all your computers 
+and servers of your build-pipeline: development workstations, testsystems, ci-servers and production systems.
+Just setup a central git-repository and change the configuration to your needs and clone it on the other servers.
+The system-specific configurations like databse url, user and password are externalized to the file 
+system.properties residing in the users home directory. Of course the local system.properties are NOT tracked
+by git. By using git to manage your installations you get all its  power and benefits your used to:
+- easily track changes and nail down configurations differences
+- switch back and forth between commits and branches
+- experiment with new configurations without regrets
 
-Welcome to WildFly (formerly known as JBoss Application Server)
-http://www.wildfly.org/
+A sample system.properties my look like this:
 
-Go to the above link for documentation, and additional downloads.
+exampleds.jdbc.url: jdbc:postgresql:example
+exampleds.user: wildfly
+exampleds.password: wildfly
 
-Also, once WildFly is started you can go to http://localhost:8080/
-for additional information.
+txn.node.identifier: node-test1
+jboss.bind.address: localhost
 
+And you start wildfly like this:
 
-Key Features
-------------
-* Java EE 7 support
-* Fast Startup
-* Small Footprint
-* Modular Design
-* Unified Configuration and Management
-* Distributed Domain Management
-* OSGi
+./bin/standalone.sh --server-config=standalone-full.xml -P=$HOME/system.properties
 
-Release Notes
--------------
-You can obtain the release notes here:
-TODO
+The respective section in standalone-full.xml looks like this:
 
-Getting Started
----------------
-WildFly requires JDK 1.7 or later. For information regarding installation
-of the JDK, see http://www.oracle.com/technetwork/java/index.html
+<datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
+   <connection-url>${exampleds.jdbc.url}</connection-url>
+   <driver>postgres</driver>
+   <security>
+      <user-name>${exampleds.user}</user-name>
+      <password>${exampleds.password}</password>
+   </security>
+   
+Local logs and pure runtime files are ignored:
+standalone/.gitignore:
+data
+log
+tmp
 
-WildFly has two modes of operation: Standalone and Domain. For more
-information regarding these modes, please refer to the documentation 
-available on the JBoss.org site:
-
-https://docs.jboss.org/author/display/AS72/Documentation
-
-
-Starting a Standalone Server
-----------------------------
-A WildFly standalone server runs a single instance.
-
-<JBOSS_HOME>/bin/standalone.sh      (Unix / Linux)
-
-<JBOSS_HOME>\bin\standalone.bat     (Windows)
+standalone/configuration/.gitignore:
+standalone_xml_history
+logging.properties
 
 
-Starting a Managed Domain
--------------------------
-A WildFly managed domain allows you to control and configure multiple instances,
-potentially across several physical (or virtual) machines. The default 
-configuration includes a domain controller and a single server group with three 
-servers (two of which start automatically), all running on the localhost.
+standalone/deployments/.gitignore:
+*.war
+*.ear
+*.deployed
+*.failed
 
-<JBOSS_HOME>/bin/domain.sh      (Unix / Linux)
+Beyond system.properties
+------------------------
 
-<JBOSS_HOME>\bin\domain.bat     (Windows)
- 
+Not all configurations can be handled by system.properties. If you need debugging, you just add the option --debug to your
+commandline:
 
-Accessing the Web Console
--------------------------
-Once the server has started you can access the landing page:
+./bin/standalone.sh --debug --server-config=standalone-full.xml -P=$HOME/system.properties
 
-http://localhost:8080/
+To adjust JVM options like h max heapspace -Xmx etc., just set $JAVA_OPTS accordingly in your environment.
 
-This page includes links to online documentation, quick start guides, forums 
-and the administration console.
+IMPORTANT: 
+Using jboss-cli for deployment adds the deployment to the respective configuration file (e.g. standalone-full.xml), so
+this method is NOT suited for our needs. But there is another way: We should use drop-in deployment and monitor the marker files.
+Just look at the build.gradle in the companion project 
+
+https://github.com/martin-welss/jtrack-ee7
 
 
-Stopping the Server
--------------------
-A WildFly server can be stopped by pressing Ctrl-C on the command line.
-If the server is running in a background process, the server can be stopped
-using the JBoss CLI:
+Branches
+--------
 
-<JBOSS_HOME>/bin/jboss-cli.sh --connect --command=:shutdown
+The project has 3 branches:
+master: standard with zhe demo H2 database
+ssl_branch: configured with SSL activated and keystore
+postgres_branch: configured with postgres-jdbc driver and datasource
+
+
 
