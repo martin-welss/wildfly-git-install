@@ -67,7 +67,7 @@ Branches
 --------
 
 The project has 3 branches:
-master: standard with zhe demo H2 database
+master: standard with the demo H2 database
 ssl_branch: configured with SSL activated and keystore
 postgres_branch: configured with postgres-jdbc driver and datasource
 
