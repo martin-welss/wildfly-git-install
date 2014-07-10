@@ -1,11 +1,11 @@
 wildfly-git-install lets you install your customized wildfly-installation on all your computers and servers of your build-pipeline: development workstations, testsystems, ci-servers and production systems. Just setup a central git-repository and change the configuration to your needs and clone it on the other servers.
 
-The system-specific configurations like databse url, user and password are externalized to the file system.properties residing in the users home directory. Of course the local system.properties are NOT tracked by git. By using git to manage your installations you get all its  power and benefits your used to:
+The system-specific configurations like database url, user and password are externalized to the file system.properties residing in the users home directory. Of course the local system.properties are NOT tracked by git. By using git to manage your installations you get all its  power and benefits your used to:
 - easily track changes and nail down configurations differences
 - switch back and forth between commits and branches
 - experiment with new configurations without regrets
 
-A sample system.properties my look like this:
+A sample system.properties may look like this:
 
 exampleds.jdbc.url: jdbc:postgresql:example
 exampleds.user: wildfly
@@ -53,7 +53,7 @@ commandline:
 
 ./bin/standalone.sh --debug --server-config=standalone-full.xml -P=$HOME/system.properties
 
-To adjust JVM options like h max heapspace -Xmx etc., just set $JAVA_OPTS accordingly in your environment.
+To adjust JVM options like max heapspace -Xmx just set $JAVA_OPTS accordingly in your environment.
 
 IMPORTANT: 
 Using jboss-cli for deployment adds the deployment to the respective configuration file (e.g. standalone-full.xml), so
