@@ -1,3 +1,6 @@
+Wildfly-git-install
+===================
+
 wildfly-git-install lets you install your customized wildfly-installation on all your computers and servers of your build-pipeline: development workstations, testsystems, ci-servers and production systems. Just setup a central git-repository and change the configuration to your needs and clone it on the other servers.
 
 The system-specific configurations like database url, user and password are externalized to the file system.properties residing in the users home directory. Of course the local system.properties are NOT tracked by git. By using git to manage your installations you get all its  power and benefits your used to:
@@ -46,7 +49,7 @@ standalone/deployments/.gitignore:
 *.failed
 
 Beyond system.properties
-------------------------
+========================
 
 Not all configurations can be handled by system.properties. If you need debugging, you just add the option --debug to your
 commandline:
@@ -64,7 +67,7 @@ https://github.com/martin-welss/jtrack-ee7
 
 
 Branches
---------
+========
 
 The project has 3 branches:
 master: standard with the demo H2 database
