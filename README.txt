@@ -3,8 +3,8 @@ Wildfly-git-install
 
 wildfly-git-install lets you install your customized wildfly-installation on all your computers and servers of your build-pipeline: development workstations, testsystems, ci-servers and production systems. Just setup a central git-repository and change the configuration to your needs and clone it on the other servers.
 
-The system-specific configurations like database url, user and password are externalized to the file system.properties residing in the users home directory. Of course the local system.properties are NOT tracked by git. By using git to manage your installations you get all its  power and benefits your used to:
-- easily track changes and nail down configurations differences
+The system-specific configurations like database url, user and password are externalized to the file system.properties residing in the users home directory. Of course the local system.properties are NOT tracked by git. By using git to manage your installations you get all its  power and benefits you are used to:
+- easily track changes and nail down configuration differences or bugs
 - switch back and forth between commits and branches
 - experiment with new configurations without regrets
 
@@ -65,6 +65,7 @@ Just look at the build.gradle in the companion project
 
 https://github.com/martin-welss/jtrack-ee7
 
+For the jtrack-ee7 project the postgres_branch is recommended.
 
 Branches
 ========
