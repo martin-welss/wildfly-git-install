@@ -32,17 +32,19 @@ The respective section in standalone-full.xml looks like this:
    
 
 Local logs and pure runtime files are ignored:
-standalone/.gitignore:
+    
+
+    standalone/.gitignore:
     data
     log
     tmp
 
-standalone/configuration/.gitignore:
+    standalone/configuration/.gitignore:
     standalone_xml_history
     logging.properties
 
 
-standalone/deployments/.gitignore:
+    standalone/deployments/.gitignore:
     *.war
     *.ear
     *.deployed
