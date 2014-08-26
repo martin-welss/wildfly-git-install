@@ -23,6 +23,7 @@ And you start wildfly like this:
 
 The respective section in standalone-full.xml looks like this:
 
+<code>
 <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
    <connection-url>${exampleds.jdbc.url}</connection-url>
    <driver>postgres</driver>
@@ -30,6 +31,8 @@ The respective section in standalone-full.xml looks like this:
       <user-name>${exampleds.user}</user-name>
       <password>${exampleds.password}</password>
    </security>
+   
+</code>
    
 Local logs and pure runtime files are ignored:
 standalone/.gitignore:
