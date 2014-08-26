@@ -10,46 +10,43 @@ The system-specific configurations like database url, user and password are exte
 
 A sample system.properties may look like this:
 
-exampleds.jdbc.url: jdbc:postgresql:example
-exampleds.user: wildfly
-exampleds.password: wildfly
-
-txn.node.identifier: node-test1
-jboss.bind.address: localhost
+    exampleds.jdbc.url: jdbc:postgresql:example
+    exampleds.user: wildfly
+    exampleds.password: wildfly    
+    txn.node.identifier: node-test1
+    jboss.bind.address: localhost
 
 And you start wildfly like this:
 
-./bin/standalone.sh --server-config=standalone-full.xml -P=$HOME/system.properties
+    ./bin/standalone.sh --server-config=standalone-full.xml -P=$HOME/system.properties
 
 The respective section in standalone-full.xml looks like this:
 
-<code>
-<datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
-   <connection-url>${exampleds.jdbc.url}</connection-url>
-   <driver>postgres</driver>
-   <security>
-      <user-name>${exampleds.user}</user-name>
-      <password>${exampleds.password}</password>
-   </security>
+    <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
+       <connection-url>${exampleds.jdbc.url}</connection-url>
+       <driver>postgres</driver>
+       <security>
+          <user-name>${exampleds.user}</user-name>
+          <password>${exampleds.password}</password>
+       </security>
    
-</code>
-   
+
 Local logs and pure runtime files are ignored:
 standalone/.gitignore:
-data
-log
-tmp
+    data
+    log
+    tmp
 
 standalone/configuration/.gitignore:
-standalone_xml_history
-logging.properties
+    standalone_xml_history
+    logging.properties
 
 
 standalone/deployments/.gitignore:
-*.war
-*.ear
-*.deployed
-*.failed
+    *.war
+    *.ear
+    *.deployed
+    *.failed
 
 Beyond system.properties
 ========================
@@ -57,7 +54,7 @@ Beyond system.properties
 Not all configurations can be handled by system.properties. If you need debugging, you just add the option --debug to your
 commandline:
 
-./bin/standalone.sh --debug --server-config=standalone-full.xml -P=$HOME/system.properties
+    ./bin/standalone.sh --debug --server-config=standalone-full.xml -P=$HOME/system.properties
 
 To adjust JVM options like max heapspace -Xmx just set $JAVA_OPTS accordingly in your environment.
 
@@ -74,9 +71,9 @@ Branches
 ========
 
 The project has 3 branches:
-master: standard with the demo H2 database
-ssl_branch: configured with SSL activated and keystore
-postgres_branch: configured with postgres-jdbc driver and datasource
+* master: standard with the demo H2 database
+* ssl_branch: configured with SSL activated and keystore
+* postgres_branch: configured with postgres-jdbc driver and datasource
 
 
 
