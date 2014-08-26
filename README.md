@@ -63,11 +63,11 @@ To adjust JVM options like max heapspace -Xmx just set $JAVA_OPTS accordingly in
 IMPORTANT: 
 Using jboss-cli for deployment adds the deployment to the respective configuration file (e.g. standalone-full.xml), so
 this method is NOT suited for our needs. But there is another way: We should use drop-in deployment and monitor the marker files.
-Just look at the build.gradle in the companion project 
+Just look at the file build.gradle in the companion project 
 
 https://github.com/martin-welss/jtrack-ee7
 
-For the jtrack-ee7 project the postgres_branch is recommended.
+For the jtrack-ee7 project the postgres_branch is mandatory.
 
 Branches
 ========
