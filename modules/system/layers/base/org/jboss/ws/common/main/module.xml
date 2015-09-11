@@ -29,7 +29,7 @@
     </properties>
 
     <resources>
-        <resource-root path="jbossws-common-2.2.3.Final.jar"/>
+        <resource-root path="jbossws-common-3.0.0.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -44,7 +44,6 @@
         <module name="org.jboss.ws.api"/>
         <module name="org.jboss.ws.spi"/>
         <module name="org.jboss.logging"/>
-        <module name="org.jboss.common-core"/>
         <module name="org.apache.xerces" services="import"/>
         <module name="org.jboss.jaxbintros"/>
     </dependencies>

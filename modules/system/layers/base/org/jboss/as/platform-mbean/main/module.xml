@@ -27,8 +27,12 @@
         <property name="jboss.api" value="private"/>
     </properties>
 
+    <exports>
+        <exclude path="org/jboss/as/platform/mbean/logging"/>
+    </exports>
+
     <resources>
-        <resource-root path="wildfly-platform-mbean-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-platform-mbean-1.0.1.Final.jar"/>
     </resources>
 
     <dependencies>

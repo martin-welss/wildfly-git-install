@@ -29,11 +29,11 @@
         <module name="javax.interceptor.api" export="true"/>
 
         <!-- CDIProvider -->
-        <module name="org.jboss.as.weld" services="import"/>
-        <module name="org.jboss.weld.core"/>
+        <module name="org.jboss.as.weld" services="import" optional="true"/>
+        <module name="org.jboss.weld.core" optional="true"/>
     </dependencies>
 
     <resources>
-        <resource-root path="cdi-api-1.1.jar"/>
+        <resource-root path="cdi-api-1.2.jar"/>
     </resources>
 </module>

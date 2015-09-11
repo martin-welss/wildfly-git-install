@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="infinispan-query-dsl-6.0.2.Final.jar"/>
+        <resource-root path="infinispan-query-dsl-7.2.3.Final.jar"/>
     </resources>
 
     <dependencies>

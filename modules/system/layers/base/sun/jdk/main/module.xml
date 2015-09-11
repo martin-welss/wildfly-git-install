@@ -28,10 +28,9 @@
         <resource-root path="service-loader-resources"/>
     </resources>
     <dependencies>
+        <module name="sun.scripting" export="true"/>
         <system export="true">
             <paths>
-                <path name="com/sun/script/javascript"/>
-                <path name="jdk/nashorn/api/scripting"/>
                 <path name="com/sun/image/codec/jpeg"/>
                 <path name="com/sun/imageio/plugins/bmp"/>
                 <path name="com/sun/imageio/plugins/common"/>
@@ -50,13 +49,18 @@
                 <path name="com/sun/jndi/url/iiopname"/>
                 <path name="com/sun/jndi/url/ldap"/>
                 <path name="com/sun/jndi/url/ldaps"/>
+                <path name="com/sun/jndi/url/rmi"/>
                 <path name="com/sun/media/sound"/>
                 <path name="com/sun/crypto/provider"/>
+                <path name="com/sun/org/apache/bcel/internal/classfile"/>
                 <path name="com/sun/org/apache/xml/internal/security/transforms/implementations"/>
+                <path name="com/sun/rowset"/>
+                <path name="com/sun/rowset/providers"/>
                 <path name="com/sun/security/auth"/>
                 <path name="com/sun/security/auth/login"/>
                 <path name="com/sun/security/auth/module"/>
-                <path name="com/sun/tools/internal/xjc"/>                
+                <path name="com/sun/tools/internal/xjc"/>
+                <path name="com/sun/security/jgss"/>
                 <path name="sun/awt"/>
                 <path name="sun/awt/color"/>
                 <path name="sun/awt/datatransfer"/>
@@ -80,6 +84,7 @@
                 <path name="sun/security/x509"/>
                 <path name="sun/jdbc/odbc"/>
                 <path name="sun/jdbc/odbc/ee"/>
+                <path name="sun/invoke"/>
                 <path name="sun/font"/>
                 <path name="sun/misc"/>
                 <path name="sun/io"/>
@@ -87,9 +92,17 @@
                 <path name="sun/nio/ch"/>
                 <path name="sun/nio/cs"/>
                 <path name="sun/nio/cs/ext"/>
+                <path name="sun/rmi/log"/>
+                <path name="sun/rmi/registry"/>
+                <path name="sun/rmi/runtime"/>
+                <path name="sun/rmi/server"/>
+                <path name="sun/rmi/transport"/>
+                <path name="sun/rmi/transport/proxy"/>
+                <path name="sun/rmi/transport/tcp"/>
                 <path name="sun/security"/>
                 <path name="sun/security/util"/>
                 <path name="sun/security/krb5"/>
+                <path name="sun/security/krb5/internal"/>
                 <path name="sun/util"/>
                 <path name="sun/util/calendar"/>
                 <path name="sun/util/locale"/>

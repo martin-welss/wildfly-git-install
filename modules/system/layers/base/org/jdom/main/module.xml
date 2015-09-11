@@ -28,7 +28,7 @@
     </dependencies>
 
     <resources>
-        <resource-root path="jdom-1.1.2.jar"/>
+        <resource-root path="jdom-1.1.3.jar"/>
     </resources>
 
 </module>

@@ -30,8 +30,12 @@
 
     <main-class name="org.jboss.as.jdr.CommandLineMain"/>
 
+    <exports>
+        <exclude path="org/jboss/as/jdr/logger"/>
+    </exports>
+
     <resources>
-        <resource-root path="wildfly-jdr-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-jdr-9.0.1.Final.jar"/>
         <resource-root path="resources"/>
     </resources>
 

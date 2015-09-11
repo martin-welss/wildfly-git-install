@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="neethi-3.0.2.jar"/>
+        <resource-root path="neethi-3.0.3.jar"/>
     </resources>
 
     <dependencies>

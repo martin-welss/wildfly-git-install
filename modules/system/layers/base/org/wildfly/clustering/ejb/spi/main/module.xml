@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="wildfly-clustering-ejb-spi-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-clustering-ejb-spi-9.0.1.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -38,6 +38,8 @@
         <module name="org.jboss.marshalling"/>
         <module name="org.jboss.modules"/>
         <module name="org.jboss.msc"/>
+        <module name="org.wildfly.clustering.ee.spi"/>
         <module name="org.wildfly.clustering.ejb.infinispan" services="import" optional="true"/>
+        <module name="org.wildfly.clustering.service"/>
     </dependencies>
 </module>

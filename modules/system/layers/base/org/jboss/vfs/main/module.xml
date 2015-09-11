@@ -29,11 +29,10 @@
     </properties>
 
     <resources>
-        <resource-root path="jboss-vfs-3.2.5.Final.jar"/>
+        <resource-root path="jboss-vfs-3.2.9.Final.jar"/>
     </resources>
 
     <dependencies>
-        <module name="org.jboss.common-core"/>
         <module name="org.jboss.logging"/>
     </dependencies>
 </module>

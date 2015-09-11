@@ -27,8 +27,12 @@
         <property name="jboss.api" value="private"/>
     </properties>
 
+    <exports>
+        <exclude path="org/wildfly/security/manager/_private"/>
+    </exports>
+
     <resources>
-        <resource-root path="wildfly-security-manager-1.0.0.Final.jar"/>
+        <resource-root path="wildfly-security-manager-1.1.2.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -37,8 +41,4 @@
         <module name="javax.api"/>
         <module name="sun.jdk"/>
     </dependencies>
-
-    <exports>
-        <exclude path="org/jboss/wildfly/security/manager/_private"/>
-    </exports>
 </module>

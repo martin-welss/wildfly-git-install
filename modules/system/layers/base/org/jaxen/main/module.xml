@@ -33,7 +33,7 @@
     </dependencies>
 
     <resources>
-        <resource-root path="jaxen-1.1.3.jar"/>
+        <resource-root path="jaxen-1.1.6.jar"/>
     </resources>
 
 </module>

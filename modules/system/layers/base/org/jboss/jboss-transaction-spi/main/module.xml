@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="jboss-transaction-spi-7.1.0.Final.jar"/>
+        <resource-root path="jboss-transaction-spi-7.1.1.Final.jar"/>
     </resources>
 
     <dependencies>

@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="narayana-jts-integration-5.0.0.Final.jar"/>
+        <resource-root path="narayana-jts-integration-5.0.6.Final.jar"/>
     </resources>
 
     <dependencies>

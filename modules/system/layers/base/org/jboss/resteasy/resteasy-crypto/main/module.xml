@@ -28,8 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="resteasy-crypto-3.0.8.Final.jar"/>
-	<resource-root path="resteasy-crypto-3.0.8.Final-jandex.jar"/>
+        <resource-root path="resteasy-crypto-3.0.11.Final.jar"/>
     </resources>
 
     <dependencies>

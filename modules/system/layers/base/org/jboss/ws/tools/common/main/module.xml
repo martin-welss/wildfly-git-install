@@ -29,7 +29,7 @@
     </properties>
 
     <resources>
-        <resource-root path="jbossws-common-tools-1.2.0.Final.jar"/>
+        <resource-root path="jbossws-common-tools-1.2.1.Final.jar"/>
     </resources>
 
     <dependencies>

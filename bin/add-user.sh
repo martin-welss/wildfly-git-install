@@ -32,7 +32,7 @@ if [ "x$JBOSS_HOME" = "x" ]; then
 else
  SANITIZED_JBOSS_HOME=`cd "$JBOSS_HOME"; pwd`
  if [ "$RESOLVED_JBOSS_HOME" != "$SANITIZED_JBOSS_HOME" ]; then
-   echo "WARNING JBOSS_HOME may be pointing to a different installation - unpredictable results may occur."
+   echo "WARNING: The JBOSS_HOME ($SANITIZED_JBOSS_HOME) that this script uses points to a different installation than the one that this script resides in ($RESOLVED_JBOSS_HOME). Unpredictable results may occur."
    echo ""
  fi
 fi
@@ -66,7 +66,7 @@ fi
 JAVA_OPTS="$JAVA_OPTS"
 
 eval \"$JAVA\" $JAVA_OPTS \
-         -jar \"$JBOSS_HOME/jboss-modules.jar\" \
-         -mp \"${JBOSS_MODULEPATH}\" \
+         -jar \""$JBOSS_HOME"/jboss-modules.jar\" \
+         -mp \""${JBOSS_MODULEPATH}"\" \
          org.jboss.as.domain-add-user \
          '"$@"'

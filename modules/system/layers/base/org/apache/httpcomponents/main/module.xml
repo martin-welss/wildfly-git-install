@@ -28,9 +28,11 @@
     </properties>
 
     <resources>
-        <resource-root path="httpclient-4.2.1.jar"/>
-        <resource-root path="httpcore-4.2.1.jar"/>
-        <resource-root path="httpmime-4.2.1.jar"/>
+        <resource-root path="httpclient-4.3.6.jar"/>
+        <resource-root path="httpcore-4.3.3.jar"/>
+        <resource-root path="httpcore-nio-4.3.3.jar"/>
+        <resource-root path="httpasyncclient-4.0.1.jar"/>
+        <resource-root path="httpmime-4.3.6.jar"/>
     </resources>
 
     <dependencies>

@@ -27,8 +27,12 @@
         <property name="jboss.api" value="private"/>
     </properties>
 
+    <exports>
+        <exclude path="org/jboss/as/repository/logging"/>
+    </exports>
+
     <resources>
-        <resource-root path="wildfly-deployment-repository-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-deployment-repository-1.0.1.Final.jar"/>
     </resources>
 
     <dependencies>

@@ -166,19 +166,19 @@ case "$1" in
 		if [ "$JBOSS_MODE" = "standalone" ]; then
 			start-stop-daemon --start --user "$JBOSS_USER" \
 			--chuid "$JBOSS_USER" --chdir "$JBOSS_HOME" --pidfile "$JBOSS_PIDFILE" \
-			--exec "$JBOSS_SCRIPT" -- -c $JBOSS_CONFIG >> "$JBOSS_CONSOLE_LOG" 2>&1 &
+			--exec "$JBOSS_SCRIPT" -- -c $JBOSS_CONFIG $JBOSS_OPTS >> "$JBOSS_CONSOLE_LOG" 2>&1 &
 		else
 			start-stop-daemon --start --user "$JBOSS_USER" \
 			--chuid "$JBOSS_USER" --chdir "$JBOSS_HOME" --pidfile "$JBOSS_PIDFILE" \
 			--exec "$JBOSS_SCRIPT" -- --domain-config=$JBOSS_DOMAIN_CONFIG \
-			--host-config=$JBOSS_HOST_CONFIG >> "$JBOSS_CONSOLE_LOG" 2>&1 &
+			--host-config=$JBOSS_HOST_CONFIG $JBOSS_OPTS >> "$JBOSS_CONSOLE_LOG" 2>&1 &
 		fi
 
 		count=0
 		launched=0
 		until [ $count -gt $STARTUP_WAIT ]
 		do
-			grep 'JBAS015874:' "$JBOSS_CONSOLE_LOG" > /dev/null
+			grep 'WFLYSRV0025:' "$JBOSS_CONSOLE_LOG" > /dev/null
 			if [ $? -eq 0 ] ; then
 				launched=1
 				break
@@ -210,29 +210,21 @@ case "$1" in
 	if [ $status_stop -eq 0 ]; then
 		read kpid < "$JBOSS_PIDFILE"
 		log_daemon_msg "Stopping $DESC" "$NAME"
+		
+		children_pids=$(pgrep -P $kpid)
 
-		start-stop-daemon --start --chuid "$JBOSS_USER" \
-		--exec "$JBOSS_CLI" -- --connect --command=:shutdown \
+		start-stop-daemon --stop --quiet --pidfile "$JBOSS_PIDFILE" \
+		--user "$JBOSS_USER" --retry=TERM/$SHUTDOWN_WAIT/KILL/5 \
 		>/dev/null 2>&1
-
-		if [ $? -eq 1 ]; then
-			kill -15 $kpid
+		
+		if [ $? -eq 2 ]; then
+			log_failure_msg "$DESC can't be stopped"
+			exit 1
 		fi
-
-		count=0
-		until [ $count -gt $SHUTDOWN_WAIT ]
-		do
-			check_status
-			if [ $? -eq 3 ]; then
-				break
-			fi
-			sleep 1
-			count=$((count + 1));
+		
+		for child in $children_pids; do
+			/bin/kill -9 $child >/dev/null 2>&1
 		done
-
-		if [ $count -gt $SHUTDOWN_WAIT ]; then
-			kill -9 $kpid
-		fi
 		
 		log_end_msg 0
 	elif [ $status_stop -eq 1 ]; then

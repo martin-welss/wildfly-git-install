@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="wildfly-jaxr-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-jaxr-9.0.1.Final.jar"/>
     </resources>
 
     <dependencies>

@@ -29,7 +29,7 @@
     </properties>
 
     <resources>
-        <resource-root path="jbossws-cxf-factories-4.2.4.Final.jar"/>
+        <resource-root path="jbossws-cxf-factories-5.0.0.Final.jar"/>
     </resources>
 
     <dependencies/>

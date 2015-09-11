@@ -22,7 +22,7 @@
   -->
 <module xmlns="urn:jboss:module:1.3" name="io.undertow.core">
     <resources>
-        <resource-root path="undertow-core-1.0.15.Final.jar"/>
+        <resource-root path="undertow-core-1.2.9.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -31,5 +31,11 @@
         <module name="org.jboss.logging"/>
         <module name="javax.api"/>
         <module name="sun.jdk"/>
+            <system export="true">
+                <paths>
+                    <!-- Needed for HTTP2 and SPDY support-->
+                    <path name="org/eclipse/jetty/alpn"/>
+                </paths>
+            </system>
     </dependencies>
 </module>

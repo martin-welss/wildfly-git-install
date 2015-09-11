@@ -31,7 +31,7 @@
     <main-class name="org.jboss.as.server.DomainServerMain"/>
 
     <resources>
-        <resource-root path="wildfly-server-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-server-1.0.1.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -64,8 +64,8 @@
         <module name="org.jboss.as.process-controller"/>
         <module name="org.jboss.as.protocol"/>
         <module name="org.jboss.as.remoting"/>
-        <module name="org.wildfly.security.manager"/>
-        <module name="org.jboss.as.security" optional="true" services="import"/>
+        <module name="org.jboss.as.self-contained" optional="true"/>
+        <module name="org.wildfly.security.manager" services="import"/>
         <module name="org.jboss.as.version"/>
         <module name="org.picketbox" optional="true"/>
         <module name="io.undertow.core" />

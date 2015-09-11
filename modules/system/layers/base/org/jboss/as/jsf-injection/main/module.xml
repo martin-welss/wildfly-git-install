@@ -28,14 +28,15 @@
     </properties>
 
     <resources>
-        <resource-root path="wildfly-jsf-injection-8.1.0.Final.jar"/>
-        <resource-root path="weld-core-jsf-2.1.2.Final.jar"/>
+        <resource-root path="wildfly-jsf-injection-9.0.1.Final.jar"/>
+        <resource-root path="weld-core-jsf-2.2.14.Final.jar"/>
     </resources>
 
     <dependencies>
         <module name="com.sun.jsf-impl"/>
         <module name="javax.api"/>
         <module name="org.jboss.as.ee"/>
+        <module name="org.jboss.as.jsf"/>
         <module name="org.jboss.as.web-common"/>
         <module name="javax.servlet.api"/>
         <module name="javax.enterprise.api"/>

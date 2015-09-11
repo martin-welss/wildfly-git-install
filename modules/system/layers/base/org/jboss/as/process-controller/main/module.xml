@@ -28,15 +28,19 @@
         <property name="jboss.require-java-version" value="1.7"/>
     </properties>
 
+    <exports>
+        <exclude path="org/jboss/as/process/logging"/>
+    </exports>
+
     <main-class name="org.jboss.as.process.Main"/>
 
     <resources>
-        <resource-root path="wildfly-process-controller-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-process-controller-1.0.1.Final.jar"/>
     </resources>
 
     <dependencies>
         <module name="javax.api"/>
-        <module name="org.wildfly.security.manager"/>
+        <module name="org.wildfly.security.manager" services="import"/>
         <module name="org.jboss.as.version" export="true"/>
         <module name="org.jboss.logging"/>
         <module name="org.jboss.logmanager" services="import"/>

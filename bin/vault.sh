@@ -25,7 +25,6 @@ die() {
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
-linux=false;
 case "`uname`" in
     CYGWIN*)
         cygwin=true
@@ -33,10 +32,6 @@ case "`uname`" in
 
     Darwin*)
         darwin=true
-        ;;
-
-    Linux)
-        linux=true
         ;;
 esac
 
@@ -102,8 +97,8 @@ echo "========================================================================="
 echo ""
 
 eval \"$JAVA\" $JAVA_OPTS \
-         -jar \"$JBOSS_HOME/jboss-modules.jar\" \
-         -mp \"${JBOSS_MODULEPATH}\" \
+         -jar \""$JBOSS_HOME"/jboss-modules.jar\" \
+         -mp \""${JBOSS_MODULEPATH}"\" \
          org.jboss.as.vault-tool \
          '"$@"'
 

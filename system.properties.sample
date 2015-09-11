@@ -1,7 +1,0 @@
-exampleds.jdbc.url: jdbc:h2:~/h2data/exampledb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
-exampleds.user: sa
-exampleds.password: sa
-
-txn.node.identifier: node-test1
-jboss.bind.address: localhost
-

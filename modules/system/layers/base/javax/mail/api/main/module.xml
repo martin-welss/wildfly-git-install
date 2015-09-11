@@ -29,6 +29,6 @@
     </dependencies>
 
     <resources>
-        <resource-root path="javax.mail-1.5.1.jar"/>
+        <resource-root path="javax.mail-1.5.3.jar"/>
     </resources>
 </module>

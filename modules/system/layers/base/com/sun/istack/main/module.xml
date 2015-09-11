@@ -28,8 +28,8 @@
     </properties>
 
     <resources>
-        <resource-root path="istack-commons-runtime-2.6.1.jar"/>
-        <resource-root path="istack-commons-tools-2.6.1.jar"/>
+        <resource-root path="istack-commons-runtime-2.21.jar"/>
+        <resource-root path="istack-commons-tools-2.21.jar"/>
     </resources>
 
     <dependencies>

@@ -47,6 +47,10 @@ if [ -z "$SHUTDOWN_WAIT" ]; then
 	SHUTDOWN_WAIT=30
 fi
 
+if [ -z "$JBOSS_LOCKFILE" ]; then
+	JBOSS_LOCKFILE=/var/lock/subsys/wildfly
+fi
+
 # Startup mode of wildfly
 if [ -z "$JBOSS_MODE" ]; then
 	JBOSS_MODE=standalone
@@ -70,16 +74,6 @@ fi
 
 prog='wildfly'
 
-CMD_PREFIX=''
-
-if [ ! -z "$JBOSS_USER" ]; then
-	if [ -r /etc/rc.d/init.d/functions ]; then
-		CMD_PREFIX="daemon --user $JBOSS_USER"
-	else
-		CMD_PREFIX="su - $JBOSS_USER -c"
-	fi
-fi
-
 start() {
 	echo -n "Starting $prog: "
 	if [ -f $JBOSS_PIDFILE ]; then
@@ -98,21 +92,19 @@ start() {
 
 	mkdir -p $(dirname $JBOSS_PIDFILE)
 	chown $JBOSS_USER $(dirname $JBOSS_PIDFILE) || true
-	#$CMD_PREFIX JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT 2>&1 >> $JBOSS_CONSOLE_LOG &
-	#$CMD_PREFIX JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT &
 
 	if [ ! -z "$JBOSS_USER" ]; then
 		if [ "$JBOSS_MODE" = "standalone" ]; then
 			if [ -r /etc/rc.d/init.d/functions ]; then
-				daemon --user $JBOSS_USER LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT -c $JBOSS_CONFIG >> $JBOSS_CONSOLE_LOG 2>&1 &
+				daemon --user $JBOSS_USER LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT -c $JBOSS_CONFIG $JBOSS_OPTS >> $JBOSS_CONSOLE_LOG 2>&1 &
 			else
-				su - $JBOSS_USER -c "LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT -c $JBOSS_CONFIG" >> $JBOSS_CONSOLE_LOG 2>&1 &
+				su - $JBOSS_USER -c "LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT -c $JBOSS_CONFIG $JBOSS_OPTS" >> $JBOSS_CONSOLE_LOG 2>&1 &
 			fi
 		else
 			if [ -r /etc/rc.d/init.d/functions ]; then
-				daemon --user $JBOSS_USER LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT --domain-config=$JBOSS_DOMAIN_CONFIG --host-config=$JBOSS_HOST_CONFIG >> $JBOSS_CONSOLE_LOG 2>&1 &
+				daemon --user $JBOSS_USER LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT --domain-config=$JBOSS_DOMAIN_CONFIG --host-config=$JBOSS_HOST_CONFIG $JBOSS_OPTS >> $JBOSS_CONSOLE_LOG 2>&1 &
 			else
-				su - $JBOSS_USER -c "LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT --domain-config=$JBOSS_DOMAIN_CONFIG --host-config=$JBOSS_HOST_CONFIG" >> $JBOSS_CONSOLE_LOG 2>&1 &
+				su - $JBOSS_USER -c "LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT --domain-config=$JBOSS_DOMAIN_CONFIG --host-config=$JBOSS_HOST_CONFIG $JBOSS_OPTS" >> $JBOSS_CONSOLE_LOG 2>&1 &
 			fi
 		fi
 	fi
@@ -122,7 +114,7 @@ start() {
 
 	until [ $count -gt $STARTUP_WAIT ]
 	do
-		grep 'JBAS015874:' $JBOSS_CONSOLE_LOG > /dev/null
+		grep 'WFLYSRV0025:' $JBOSS_CONSOLE_LOG > /dev/null
 		if [ $? -eq 0 ] ; then
 			launched=true
 			break
@@ -131,6 +123,7 @@ start() {
 		let count=$count+1;
 	done
 
+	touch $JBOSS_LOCKFILE
 	success
 	echo
 	return 0
@@ -157,6 +150,7 @@ stop() {
 		fi
 	fi
 	rm -f $JBOSS_PIDFILE
+	rm -f $JBOSS_LOCKFILE
 	success
 	echo
 }

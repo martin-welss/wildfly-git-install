@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Use --debug to activate debug mode with an optional argument to specify the port.
-# Usage : standalone.bat --debug
-#         standalone.bat --debug 9797
+# Usage : standalone.sh --debug
+#         standalone.sh --debug 9797
 
 # By default debug mode is disable.
 DEBUG_MODE=false
@@ -13,16 +13,23 @@ do
     case "$1" in
       --debug)
           DEBUG_MODE=true
-          shift
-          if [ -n "$1" ] && [ "${1#*-}" = "$1" ]; then
-              DEBUG_PORT=$1
+          if [ -n "$2" ] && [ "$2" = `echo "$2" | sed 's/-//'` ]; then
+              DEBUG_PORT=$2
+              shift
           fi
+          ;;
+      -Djava.security.manager*)
+          echo "ERROR: The use of -Djava.security.manager has been removed. Please use the -secmgr command line argument or SECMGR=true environment variable."
+          exit 1
+          ;;
+      -secmgr)
+          SECMGR="true"
           ;;
       --)
           shift
           break;;
       *)
-          SERVER_OPTS="$SERVER_OPTS \"$1\""
+          SERVER_OPTS="$SERVER_OPTS '$1'"
           ;;
     esac
     shift
@@ -41,7 +48,7 @@ darwin=false;
 linux=false;
 solaris=false;
 freebsd=false;
-
+other=false
 case "`uname`" in
     CYGWIN*)
         cygwin=true
@@ -58,6 +65,9 @@ case "`uname`" in
         ;;
     SunOS*)
         solaris=true
+        ;;
+    *)
+        other=true
         ;;
 esac
 
@@ -105,7 +115,6 @@ if [ "$DEBUG_MODE" = "true" ]; then
     else
         echo "Debug already enabled in JAVA_OPTS, ignoring --debug argument"
     fi
-    SERVER_OPTS="$SERVER_OPTS --debug ${DEBUG_PORT}"
 fi
 
 # Setup the JVM
@@ -117,14 +126,59 @@ if [ "x$JAVA" = "x" ]; then
     fi
 fi
 
-if $linux || $solaris; then
+if [ "$PRESERVE_JAVA_OPTS" != "true" ]; then
+    # Check for -d32/-d64 in JAVA_OPTS
+    JVM_D64_OPTION=`echo $JAVA_OPTS | $GREP "\-d64"`
+    JVM_D32_OPTION=`echo $JAVA_OPTS | $GREP "\-d32"`
+
+    # Check If server or client is specified
+    SERVER_SET=`echo $JAVA_OPTS | $GREP "\-server"`
+    CLIENT_SET=`echo $JAVA_OPTS | $GREP "\-client"`
+
+    if [ "x$JVM_D32_OPTION" != "x" ]; then
+        JVM_OPTVERSION="-d32"
+    elif [ "x$JVM_D64_OPTION" != "x" ]; then
+        JVM_OPTVERSION="-d64"
+    elif $darwin && [ "x$SERVER_SET" = "x" ]; then
+        # Use 32-bit on Mac, unless server has been specified or the user opts are incompatible
+        "$JAVA" -d32 $JAVA_OPTS -version > /dev/null 2>&1 && PREPEND_JAVA_OPTS="-d32" && JVM_OPTVERSION="-d32"
+    fi
+
+    CLIENT_VM=false
+    if [ "x$CLIENT_SET" != "x" ]; then
+        CLIENT_VM=true
+    elif [ "x$SERVER_SET" = "x" ]; then
+        if $darwin && [ "$JVM_OPTVERSION" = "-d32" ]; then
+            # Prefer client for Macs, since they are primarily used for development
+            CLIENT_VM=true
+            PREPEND_JAVA_OPTS="$PREPEND_JAVA_OPTS -client"
+        else
+            PREPEND_JAVA_OPTS="$PREPEND_JAVA_OPTS -server"
+        fi
+    fi
+
+    if [ $CLIENT_VM = false ]; then
+        NO_COMPRESSED_OOPS=`echo $JAVA_OPTS | $GREP "\-XX:\-UseCompressedOops"`
+        if [ "x$NO_COMPRESSED_OOPS" = "x" ]; then
+            "$JAVA" $JVM_OPTVERSION -server -XX:+UseCompressedOops -version >/dev/null 2>&1 && PREPEND_JAVA_OPTS="$PREPEND_JAVA_OPTS -XX:+UseCompressedOops"
+        fi
+    fi
+
+    JAVA_OPTS="$PREPEND_JAVA_OPTS $JAVA_OPTS"
+fi
+
+if [ "x$JBOSS_MODULEPATH" = "x" ]; then
+    JBOSS_MODULEPATH="$JBOSS_HOME/modules"
+fi
+
+if $linux; then
     # consolidate the server and command line opts
     CONSOLIDATED_OPTS="$JAVA_OPTS $SERVER_OPTS"
     # process the standalone options
     for var in $CONSOLIDATED_OPTS
     do
        # Remove quotes
-       p=`echo $var | tr -d '"'`
+       p=`echo $var | tr -d "'"`
        case $p in
          -Djboss.server.base.dir=*)
               JBOSS_BASE_DIR=`readlink -m ${p#*=}`
@@ -139,15 +193,37 @@ if $linux || $solaris; then
     done
 fi
 
-# No readlink -m on BSD
-if $darwin || $freebsd; then
+if $solaris; then
     # consolidate the server and command line opts
     CONSOLIDATED_OPTS="$JAVA_OPTS $SERVER_OPTS"
     # process the standalone options
     for var in $CONSOLIDATED_OPTS
     do
        # Remove quotes
-       p=`echo $var | tr -d '"'`
+       p=`echo $var | tr -d "'"`
+      case $p in
+        -Djboss.server.base.dir=*)
+             JBOSS_BASE_DIR=`echo $p | awk -F= '{print $2}'`
+             ;;
+        -Djboss.server.log.dir=*)
+             JBOSS_LOG_DIR=`echo $p | awk -F= '{print $2}'`
+             ;;
+        -Djboss.server.config.dir=*)
+             JBOSS_CONFIG_DIR=`echo $p | awk -F= '{print $2}'`
+             ;;
+      esac
+    done
+fi
+
+# No readlink -m on BSD
+if $darwin || $freebsd || $other ; then
+    # consolidate the server and command line opts
+    CONSOLIDATED_OPTS="$JAVA_OPTS $SERVER_OPTS"
+    # process the standalone options
+    for var in $CONSOLIDATED_OPTS
+    do
+       # Remove quotes
+       p=`echo $var | tr -d "'"`
        case $p in
          -Djboss.server.base.dir=*)
               JBOSS_BASE_DIR=`cd ${p#*=} ; pwd -P`
@@ -227,7 +303,7 @@ if [ "$PRESERVE_JAVA_OPTS" != "true" ]; then
         #mv "$JBOSS_LOG_DIR/gc.log.3" "$JBOSS_LOG_DIR/backupgc.log.3" >/dev/null 2>&1
         #mv "$JBOSS_LOG_DIR/gc.log.4" "$JBOSS_LOG_DIR/backupgc.log.4" >/dev/null 2>&1
         #mv "$JBOSS_LOG_DIR/gc.log.*.current" "$JBOSS_LOG_DIR/backupgc.log.current" >/dev/null 2>&1
-        #"$JAVA" $JVM_OPTVERSION -verbose:gc -Xloggc:"$JBOSS_LOG_DIR/gc.log" -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -version >/dev/null 2>&1 && mkdir -p $JBOSS_LOG_DIR && PREPEND_JAVA_OPTS="$PREPEND_JAVA_OPTS -verbose:gc -Xloggc:\"$JBOSS_LOG_DIR/gc.log\" -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading" 
+        #"$JAVA" $JVM_OPTVERSION -verbose:gc -Xloggc:"$JBOSS_LOG_DIR/gc.log" -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -version >/dev/null 2>&1 && mkdir -p $JBOSS_LOG_DIR && PREPEND_JAVA_OPTS="$PREPEND_JAVA_OPTS -verbose:gc -Xloggc:\"$JBOSS_LOG_DIR/gc.log\" -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading"
     #fi
 
     JAVA_OPTS="$PREPEND_JAVA_OPTS $JAVA_OPTS"
@@ -237,6 +313,18 @@ if [ "x$JBOSS_MODULEPATH" = "x" ]; then
     JBOSS_MODULEPATH="$JBOSS_HOME/modules"
 fi
 
+# Process the JAVA_OPTS and fail the script of a java.security.manager was found
+SECURITY_MANAGER_SET=`echo $JAVA_OPTS | $GREP "java\.security\.manager"`
+if [ "x$SECURITY_MANAGER_SET" != "x" ]; then
+    echo "ERROR: The use of -Djava.security.manager has been removed. Please use the -secmgr command line argument or SECMGR=true environment variable."
+    exit 1
+fi
+
+# Set up the module arguments
+MODULE_OPTS=""
+if [ "$SECMGR" = "true" ]; then
+    MODULE_OPTS="$MODULE_OPTS -secmgr";
+fi
 
 # Display our environment
 echo "========================================================================="
@@ -256,25 +344,27 @@ while true; do
    if [ "x$LAUNCH_JBOSS_IN_BACKGROUND" = "x" ]; then
       # Execute the JVM in the foreground
       eval \"$JAVA\" -D\"[Standalone]\" $JAVA_OPTS \
-         \"-Dorg.jboss.boot.log.file=$JBOSS_LOG_DIR/server.log\" \
-         \"-Dlogging.configuration=file:$JBOSS_CONFIG_DIR/logging.properties\" \
-         -jar \"$JBOSS_HOME/jboss-modules.jar\" \
-         -mp \"${JBOSS_MODULEPATH}\" \
+         \"-Dorg.jboss.boot.log.file="$JBOSS_LOG_DIR"/server.log\" \
+         \"-Dlogging.configuration=file:"$JBOSS_CONFIG_DIR"/logging.properties\" \
+         -jar \""$JBOSS_HOME"/jboss-modules.jar\" \
+         $MODULE_OPTS \
+         -mp \""${JBOSS_MODULEPATH}"\" \
          org.jboss.as.standalone \
-         -Djboss.home.dir=\"$JBOSS_HOME\" \
-         -Djboss.server.base.dir=\"$JBOSS_BASE_DIR\" \
+         -Djboss.home.dir=\""$JBOSS_HOME"\" \
+         -Djboss.server.base.dir=\""$JBOSS_BASE_DIR"\" \
          "$SERVER_OPTS"
       JBOSS_STATUS=$?
    else
       # Execute the JVM in the background
       eval \"$JAVA\" -D\"[Standalone]\" $JAVA_OPTS \
-         \"-Dorg.jboss.boot.log.file=$JBOSS_LOG_DIR/server.log\" \
-         \"-Dlogging.configuration=file:$JBOSS_CONFIG_DIR/logging.properties\" \
-         -jar \"$JBOSS_HOME/jboss-modules.jar\" \
-         -mp \"${JBOSS_MODULEPATH}\" \
+         \"-Dorg.jboss.boot.log.file="$JBOSS_LOG_DIR"/server.log\" \
+         \"-Dlogging.configuration=file:"$JBOSS_CONFIG_DIR"/logging.properties\" \
+         -jar \""$JBOSS_HOME"/jboss-modules.jar\" \
+         $MODULE_OPTS \
+         -mp \""${JBOSS_MODULEPATH}"\" \
          org.jboss.as.standalone \
-         -Djboss.home.dir=\"$JBOSS_HOME\" \
-         -Djboss.server.base.dir=\"$JBOSS_BASE_DIR\" \
+         -Djboss.home.dir=\""$JBOSS_HOME"\" \
+         -Djboss.server.base.dir=\""$JBOSS_BASE_DIR"\" \
          "$SERVER_OPTS" "&"
       JBOSS_PID=$!
       # Trap common signals and relay them to the jboss process

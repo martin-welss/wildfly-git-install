@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="wildfly-clustering-web-undertow-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-clustering-web-undertow-9.0.1.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -38,7 +38,10 @@
         <module name="io.undertow.servlet"/>
         <module name="org.jboss.as.web-common"/>
         <module name="org.jboss.logging"/>
+        <module name="org.jboss.metadata.web"/>
         <module name="org.jboss.msc"/>
+        <module name="org.wildfly.clustering.ee.spi"/>
+        <module name="org.wildfly.clustering.service"/>
         <module name="org.wildfly.clustering.web.spi"/>
         <module name="org.wildfly.extension.undertow"/>
     </dependencies>

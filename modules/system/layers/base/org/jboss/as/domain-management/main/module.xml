@@ -27,8 +27,13 @@
         <property name="jboss.api" value="private"/>
     </properties>
 
+    <exports>
+        <exclude path="org/jboss/as/domain/management/logging"/>
+        <exclude path="org/jboss/as/domain/management/_private"/>
+    </exports>
+
     <resources>
-        <resource-root path="wildfly-domain-management-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-domain-management-1.0.1.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -42,11 +47,8 @@
         <module name="org.jboss.msc" />
         <module name="org.jboss.sasl"/>
         <module name="org.jboss.staxmapper"/>
+        <module name="org.picketbox" optional="true"/>
         <module name="javax.api"/>
         <module name="sun.jdk" export="true" />        
     </dependencies>
-    
-    <exports>
-        <exclude path="org.jboss.as.domain.management._private"/>
-    </exports>
 </module>

@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="xsom-20110809.jar"/>
+        <resource-root path="xsom-20140925.jar"/>
     </resources>
 
     <dependencies>

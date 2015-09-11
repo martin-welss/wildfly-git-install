@@ -28,10 +28,14 @@
         <property name="jboss.require-java-version" value="1.7"/>
     </properties>
 
+    <exports>
+        <exclude path="org/jboss/as/appclient/logging"/>
+    </exports>
+
     <main-class name="org.jboss.as.appclient.subsystem.Main"/>
 
     <resources>
-        <resource-root path="wildfly-appclient-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-appclient-9.0.1.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -67,9 +71,10 @@
         <module name="org.jboss.as.protocol"/>
         <module name="org.jboss.as.remoting"/>
         <module name="org.jboss.as.security"/>
-        <module name="org.wildfly.security.manager"/>
+        <module name="org.wildfly.security.manager" services="import"/>
         <module name="org.jboss.as.version"/>
         <module name="org.picketbox"/>
-        <module name="org.jboss.metadata"/>
+        <module name="org.jboss.metadata.common"/>
+        <module name="org.jboss.metadata.appclient"/>
     </dependencies>
 </module>

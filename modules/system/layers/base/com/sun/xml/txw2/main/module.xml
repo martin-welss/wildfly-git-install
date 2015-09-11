@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="txw2-20110809.jar"/>
+        <resource-root path="txw2-2.2.11.jar"/>
     </resources>
 
     <dependencies>

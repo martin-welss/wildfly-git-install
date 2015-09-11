@@ -32,7 +32,7 @@
     </dependencies>
 
     <resources>
-        <resource-root path="xom-1.2.5.jar"/>
+        <resource-root path="xom-1.2.10.jar"/>
     </resources>
 
 </module>

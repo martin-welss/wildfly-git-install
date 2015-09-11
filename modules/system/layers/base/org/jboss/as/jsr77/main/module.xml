@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="wildfly-jsr77-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-jsr77-9.0.1.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -47,6 +47,7 @@
         <module name="org.jboss.msc"/>
         <module name="org.jboss.logging"/>
         <module name="org.jboss.staxmapper"/>
+        <module name="org.jboss.modules"/>
 
         <!-- Only here temporarily -->
         <module name="org.jboss.ejb-client"/>

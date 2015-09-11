@@ -28,6 +28,6 @@
     </properties>
 
     <resources>
-        <resource-root path="classmate-1.0.0.jar"/>
+        <resource-root path="classmate-1.1.0.jar"/>
     </resources>
 </module>

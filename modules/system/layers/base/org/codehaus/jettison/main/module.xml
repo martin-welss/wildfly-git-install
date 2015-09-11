@@ -27,7 +27,7 @@
     </properties>
 
     <resources>
-        <resource-root path="jettison-1.3.1.jar"/>
+        <resource-root path="jettison-1.3.3.jar"/>
     </resources>
 
     <dependencies>

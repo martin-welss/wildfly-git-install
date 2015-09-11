@@ -27,8 +27,12 @@
         <property name="jboss.api" value="private"/>
     </properties>
 
+    <exports>
+        <exclude path="org/jboss/as/pojo/logging"/>
+    </exports>
+
     <resources>
-        <resource-root path="wildfly-pojo-8.1.0.Final.jar"/>
+        <resource-root path="wildfly-pojo-9.0.1.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -41,7 +45,6 @@
         <module name="org.jboss.modules"/>
         <module name="org.jboss.msc"/>
         <module name="org.jboss.logging"/>
-        <module name="org.jboss.common-core"/>
         <module name="org.jboss.vfs"/>
     </dependencies>
 </module>

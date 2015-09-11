@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="narayana-jts-jacorb-5.0.0.Final.jar"/>
+        <resource-root path="narayana-jts-idlj-5.0.6.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -42,7 +42,7 @@
         <module name="javax.transaction.api"/>
         <module name="javax.resource.api"/>
         <module name="org.hornetq"/>
-        <module name="org.jacorb"/>
+        <module name="javax.orb.api"/>
         <module name="javax.enterprise.api"/>
         <module name="org.jboss.weld.core"/>
         <module name="javax.annotation.api" export="true" />

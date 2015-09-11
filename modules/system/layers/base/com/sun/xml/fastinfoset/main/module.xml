@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="FastInfoset-1.2.12.jar"/>
+        <resource-root path="FastInfoset-1.2.13.jar"/>
     </resources>
 
     <dependencies>

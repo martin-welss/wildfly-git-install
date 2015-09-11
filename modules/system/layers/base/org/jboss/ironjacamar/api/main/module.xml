@@ -28,15 +28,14 @@
     </properties>
 
     <resources>
-        <resource-root path="ironjacamar-common-api-1.1.5.Final.jar"/>
-        <resource-root path="ironjacamar-common-spi-1.1.5.Final.jar"/>
-        <resource-root path="ironjacamar-core-api-1.1.5.Final.jar"/>
+        <resource-root path="ironjacamar-common-api-1.2.4.Final.jar"/>
+        <resource-root path="ironjacamar-common-spi-1.2.4.Final.jar"/>
+        <resource-root path="ironjacamar-core-api-1.2.4.Final.jar"/>
     </resources>
 
     <dependencies>
         <module name="javax.resource.api"/>
         <module name="javax.api"/>
-        <module name="org.jboss.common-core"/>
         <module name="org.jboss.logging"/>
         <module name="org.jboss.threads"/>
     </dependencies>

@@ -28,7 +28,7 @@
     </properties>
 
     <resources>
-        <resource-root path="jberet-core-1.0.2.Final.jar"/>
+        <resource-root path="jberet-core-1.1.0.Final.jar"/>
     </resources>
 
     <dependencies>
@@ -38,6 +38,7 @@
         <module name="org.jboss.jts"/>
         <module name="org.jboss.marshalling"/>
         <module name="org.jboss.logging"/>
+        <module name="org.wildfly.security.manager"/>
         <module name="com.google.guava"/>
         <module name="com.h2database.h2" optional="true"/>
 
