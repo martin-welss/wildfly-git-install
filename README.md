@@ -31,24 +31,14 @@ The respective section in standalone-full.xml looks like this:
        </security>
    
 
-Local logs and pure runtime files are ignored:
-    
+Local logs and pure runtime files are ignored, so here is the content of .gitignore
+ 
+standalone/configuration/standalone_xml_history
+standalone/data
+standalone/deployments
+standalone/log
+standalone/tmp   
 
-    standalone/.gitignore:
-    data
-    log
-    tmp
-
-    standalone/configuration/.gitignore:
-    standalone_xml_history
-    logging.properties
-
-
-    standalone/deployments/.gitignore:
-    *.war
-    *.ear
-    *.deployed
-    *.failed
 
 Beyond system.properties
 ========================
@@ -67,15 +57,11 @@ Just look at the file build.gradle in the companion project
 
 https://github.com/martin-welss/jtrack-ee7
 
-For the jtrack-ee7 project the postgres_branch is mandatory.
-
-Branches
+Database
 ========
 
-The project has 3 branches:
-* master: standard with the demo H2 database
-* ssl_branch: configured with SSL activated and keystore
-* postgres_branch: configured with postgres-jdbc driver and datasource
+This configuration needs a valid login to a PostgreSQL 9.4 Database (or a previous version), like shown in the sample system.properties.
+
 
 
 
