@@ -33,11 +33,11 @@ The respective section in standalone-full.xml looks like this:
 
 Local logs and pure runtime files are ignored, so here is the content of .gitignore
  
-standalone/configuration/standalone_xml_history
-standalone/data
-standalone/deployments
-standalone/log
-standalone/tmp   
+    standalone/configuration/standalone_xml_history
+    standalone/data
+    standalone/deployments
+    standalone/log
+    standalone/tmp   
 
 
 Beyond system.properties
